@@ -1,7 +1,7 @@
 import React from 'react'
 import './WeatherBox.style.css';
 
-const WeatherBox = ({weather}) => {
+const WeatherBox = ({weather, forecast}) => {
 
 
     const toCelsius = (Kelvin) => {
@@ -21,6 +21,9 @@ const WeatherBox = ({weather}) => {
       <p>{weather?.main?.humidity}%</p>
       <p>Wind</p>
       <p>icon{Math.round(weather?.wind?.speed)}m/s</p>
+      <div>
+        
+      </div>
     </div>
   )
 }
