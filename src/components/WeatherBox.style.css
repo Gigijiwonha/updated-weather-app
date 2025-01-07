@@ -1,0 +1,11 @@
+.weatherBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    width: 500px;
+    background-color: bisque;
+    border-radius: 30px;
+}
+

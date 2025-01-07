@@ -1,5 +1,6 @@
 import "./App.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import WeatherBox from './components/WeatherBox';
 
 // 1. Displaying the current weather info as soon as the app launches.
 // 2. Weather info : City name, Weather Img, Celsius, Current Weather, xtr info, Next 5days weather info.
@@ -8,6 +9,9 @@ import { useEffect } from "react";
 // 5. Loading spinner.
 
 function App() {
+
+  const [weather, setWeather] = useState();
+
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
@@ -21,6 +25,7 @@ function App() {
     let response = await fetch(url);
     let data = await response.json();
     console.log("data>>>",data);
+    setWeather(data);
   }
 
   useEffect(() => {
@@ -28,7 +33,9 @@ function App() {
     console.log("first")
   }, []);
 
-  return <div>hello</div>;
+  return <div>
+    <WeatherBox weather = {weather}/>
+  </div>;
 }
 
 export default App;
