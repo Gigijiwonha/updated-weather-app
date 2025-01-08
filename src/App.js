@@ -1,6 +1,9 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import WeatherBox from "./components/WeatherBox";
+import CityButton from './components/CityButton';
+import moment from 'moment-timezone';
+
 
 // 1. Displaying the current weather info as soon as the app launches.
 // 2. Weather info : City name, Weather Img, Celsius, Current Weather, xtr info, Next 5days weather info.
@@ -9,11 +12,18 @@ import WeatherBox from "./components/WeatherBox";
 // 5. Loading spinner.
 
 function App() {
+
   const cities = ["Seoul", "Berlin", "New York"];
+  const cityTimezone = {
+    Seoul: "Asia/Seoul",
+    Berlin: "Europe/Berlin",
+    NewYork: "America/New_York", 
+  };
 
   const [weather, setWeather] = useState();
   const [forecast, setForecast] = useState();
   const [city, setCity] = useState("");
+  const [timezone, setTimezone] = useState(moment.tz.guess()); //Guessing the current timezone based on user's browser
 
   const API_KEY = "38a63e7b6d9d409e80c797942ae598c0";
 
@@ -40,14 +50,16 @@ function App() {
       let weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
       let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
 
-      const weatherData = fetchData(weatherUrl);
-      const forecastData = fetchData(forecastUrl);
+      const weatherData = await fetchData(weatherUrl);
+      const forecastData = await fetchData(forecastUrl);
 
       setWeather(weatherData);
       if (forecastData?.list) {
-        setForecast(forecastData.list.filter((item, index) => item.dt_txt.includes()));
+        setForecast(
+          forecastData.list.filter((item, index) => item.dt_txt.includes())
+        );
       }
-      setCity('');
+      setCity("");
 
       console.log("Weatherdata>>>", weatherData);
       console.log("Forecastdata>>>", forecastData);
@@ -58,11 +70,11 @@ function App() {
 
   const getWeatherByCityName = async (city) => {
     try {
-      let weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_key}`;
-      let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_key}`;
+      let weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
+      let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}`;
 
-      const weatherDataByCity = fetchData(weatherUrl);
-      const forcastDataByCity = fetchData(forecastUrl);
+      const weatherDataByCity = await fetchData(weatherUrl);
+      const forcastDataByCity = await fetchData(forecastUrl);
 
       setWeather(weatherDataByCity);
       setForecast(forcastDataByCity);
@@ -75,7 +87,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (city === '') {
+    if (city === "") {
       getCurrentLocation();
     } else {
       getWeatherByCityName(city);
@@ -84,7 +96,7 @@ function App() {
 
   return (
     <div>
-      <WeatherBox weather={weather} forecast={forecast} />
+      <WeatherBox weather={weather} forecast={forecast} timezone={timezone}/>
       <CityButton cities={cities} setCity={setCity} />
     </div>
   );
