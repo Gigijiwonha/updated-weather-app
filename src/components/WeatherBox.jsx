@@ -21,7 +21,7 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
   };
 
   const toCelsius = (Kelvin) => {
-    console.log("f>>", Kelvin);
+    // console.log("f>>", Kelvin);
     return Kelvin - 273.15;
   };
 

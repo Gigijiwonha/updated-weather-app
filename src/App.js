@@ -11,11 +11,11 @@ import moment from "moment-timezone";
 // 5. Loading spinner.
 
 function App() {
-  const cities = ["Seoul", "Berlin", "New York"];
+  const cities = ["Seoul", "Berlin", "Toronto"];
   const cityTimezone = {
     Seoul: "Asia/Seoul",
     Berlin: "Europe/Berlin",
-    NewYork: "America/New_York",
+    Toronto: "America/Toronto",
   };
 
   const [weather, setWeather] = useState();
@@ -52,29 +52,27 @@ function App() {
       const forecastData = await fetchData(forecastUrl);
 
       setWeather(weatherData);
+
       if (forecastData?.list) {
-        let convertTimezoneList = forecastData.list.map((item) => ({
+        const getFilteredForcastData = forecastData?.list.filter((item) =>
+          item.dt_txt.includes("12:00:00")
+        );
+        const getConvertedForcastData = getFilteredForcastData.map((item) => ({
           ...item,
           dt_txt: moment
             .utc(item.dt_txt)
             .tz(timezone)
             .format("YYYY-MM-DD HH:mm:ss"),
         }));
-        console.log("Time to Sydney", convertTimezoneList);
-
-        const filteredTimezone = convertTimezoneList.filter((item, index) =>
-          item.dt_txt.includes("14:00:00")
-        );
-        console.log("filtered Sydney Time 14", filteredTimezone);
 
         const currentDate = moment().tz(timezone).format("YYYY-MM-DD");
 
-        const finalForecast = filteredTimezone?.[0]?.dt_txt.startsWith(
+        const finalForecast = getConvertedForcastData?.[0]?.dt_txt.startsWith(
           currentDate
         )
-          ? filteredTimezone.slice(1, 5)
-          : filteredTimezone.slice(0, 4);
-          
+          ? getConvertedForcastData.slice(1, 5)
+          : getConvertedForcastData.slice(0, 4);
+
         setForecast(finalForecast);
       }
       setCity("");
@@ -93,12 +91,33 @@ function App() {
 
       const weatherDataByCity = await fetchData(weatherUrl);
       const forcastDataByCity = await fetchData(forecastUrl);
+      const activeTimezone = cityTimezone[city];
+      console.log("city forecast", forcastDataByCity);
 
       setWeather(weatherDataByCity);
-      setForecast(forcastDataByCity);
 
-      console.log("CityWeatherdata>>>", weatherDataByCity);
-      console.log("CityForecastdata>>>", forcastDataByCity);
+      if (forcastDataByCity?.list) {
+        const getFilteredForcastData = forcastDataByCity?.list.filter((item) =>
+          item.dt_txt.includes("12:00:00")
+        );
+        const getConvertedForcastData = getFilteredForcastData.map((item) => ({
+          ...item,
+          dt_txt: moment
+            .utc(item.dt_txt)
+            .tz(activeTimezone)
+            .format("YYYY-MM-DD HH:mm:ss"),
+        }));
+
+        const currentDate = moment().tz(activeTimezone).format("YYYY-MM-DD");
+
+        const finalForecast = getConvertedForcastData?.[0]?.dt_txt.startsWith(
+          currentDate
+        )
+          ? getConvertedForcastData.slice(1, 5)
+          : getConvertedForcastData.slice(0, 4);
+
+        setForecast(finalForecast);
+      }
     } catch (error) {
       alert(error.message);
     }
