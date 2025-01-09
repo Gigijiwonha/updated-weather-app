@@ -35,6 +35,29 @@ function App() {
     }
   };
 
+  const convertForecastTimezone = (forecastData, timezone) => {
+    const getFilteredForcastData = forecastData?.list.filter((item) =>
+      item.dt_txt.includes("12:00:00")
+    );
+    const getConvertedForcastData = getFilteredForcastData.map((item) => ({
+      ...item,
+      dt_txt: moment
+        .utc(item.dt_txt)
+        .tz(timezone)
+        .format("YYYY-MM-DD HH:mm:ss"),
+    }));
+
+    const currentDate = moment().tz(timezone).format("YYYY-MM-DD");
+
+    const finalForecast = getConvertedForcastData?.[0]?.dt_txt.startsWith(
+      currentDate
+    )
+      ? getConvertedForcastData.slice(1, 5)
+      : getConvertedForcastData.slice(0, 4);
+
+    return setForecast(finalForecast);
+  };
+
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
@@ -54,26 +77,7 @@ function App() {
       setWeather(weatherData);
 
       if (forecastData?.list) {
-        const getFilteredForcastData = forecastData?.list.filter((item) =>
-          item.dt_txt.includes("12:00:00")
-        );
-        const getConvertedForcastData = getFilteredForcastData.map((item) => ({
-          ...item,
-          dt_txt: moment
-            .utc(item.dt_txt)
-            .tz(timezone)
-            .format("YYYY-MM-DD HH:mm:ss"),
-        }));
-
-        const currentDate = moment().tz(timezone).format("YYYY-MM-DD");
-
-        const finalForecast = getConvertedForcastData?.[0]?.dt_txt.startsWith(
-          currentDate
-        )
-          ? getConvertedForcastData.slice(1, 5)
-          : getConvertedForcastData.slice(0, 4);
-
-        setForecast(finalForecast);
+        convertForecastTimezone(forecastData, timezone);
       }
       setCity("");
 
@@ -97,26 +101,7 @@ function App() {
       setWeather(weatherDataByCity);
 
       if (forcastDataByCity?.list) {
-        const getFilteredForcastData = forcastDataByCity?.list.filter((item) =>
-          item.dt_txt.includes("12:00:00")
-        );
-        const getConvertedForcastData = getFilteredForcastData.map((item) => ({
-          ...item,
-          dt_txt: moment
-            .utc(item.dt_txt)
-            .tz(activeTimezone)
-            .format("YYYY-MM-DD HH:mm:ss"),
-        }));
-
-        const currentDate = moment().tz(activeTimezone).format("YYYY-MM-DD");
-
-        const finalForecast = getConvertedForcastData?.[0]?.dt_txt.startsWith(
-          currentDate
-        )
-          ? getConvertedForcastData.slice(1, 5)
-          : getConvertedForcastData.slice(0, 4);
-
-        setForecast(finalForecast);
+        convertForecastTimezone(forcastDataByCity, activeTimezone);
       }
     } catch (error) {
       alert(error.message);
