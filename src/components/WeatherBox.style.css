@@ -9,3 +9,16 @@
     border-radius: 30px;
 }
 
+.weatherDetail-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.weatherDetail-item {
+    display: flex;
+}
+
+.forecast-box {
+    display: flex;
+}
+

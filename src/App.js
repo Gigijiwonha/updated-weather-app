@@ -1,9 +1,8 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import WeatherBox from "./components/WeatherBox";
-import CityButton from './components/CityButton';
-import moment from 'moment-timezone';
-
+import CityButton from "./components/CityButton";
+import moment from "moment-timezone";
 
 // 1. Displaying the current weather info as soon as the app launches.
 // 2. Weather info : City name, Weather Img, Celsius, Current Weather, xtr info, Next 5days weather info.
@@ -12,12 +11,11 @@ import moment from 'moment-timezone';
 // 5. Loading spinner.
 
 function App() {
-
   const cities = ["Seoul", "Berlin", "New York"];
   const cityTimezone = {
     Seoul: "Asia/Seoul",
     Berlin: "Europe/Berlin",
-    NewYork: "America/New_York", 
+    NewYork: "America/New_York",
   };
 
   const [weather, setWeather] = useState();
@@ -55,9 +53,29 @@ function App() {
 
       setWeather(weatherData);
       if (forecastData?.list) {
-        setForecast(
-          forecastData.list.filter((item, index) => item.dt_txt.includes())
+        let convertTimezoneList = forecastData.list.map((item) => ({
+          ...item,
+          dt_txt: moment
+            .utc(item.dt_txt)
+            .tz(timezone)
+            .format("YYYY-MM-DD HH:mm:ss"),
+        }));
+        console.log("Time to Sydney", convertTimezoneList);
+
+        const filteredTimezone = convertTimezoneList.filter((item, index) =>
+          item.dt_txt.includes("14:00:00")
         );
+        console.log("filtered Sydney Time 14", filteredTimezone);
+
+        const currentDate = moment().tz(timezone).format("YYYY-MM-DD");
+
+        const finalForecast = filteredTimezone?.[0]?.dt_txt.startsWith(
+          currentDate
+        )
+          ? filteredTimezone.slice(1, 5)
+          : filteredTimezone.slice(0, 4);
+          
+        setForecast(finalForecast);
       }
       setCity("");
 
@@ -96,7 +114,7 @@ function App() {
 
   return (
     <div>
-      <WeatherBox weather={weather} forecast={forecast} timezone={timezone}/>
+      <WeatherBox weather={weather} forecast={forecast} timezone={timezone} />
       <CityButton cities={cities} setCity={setCity} />
     </div>
   );
