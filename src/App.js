@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import WeatherBox from "./components/WeatherBox";
 import CityButton from "./components/CityButton";
 import moment from "moment-timezone";
+import bgImage from "./assets/bgimage.jpg";
 
 // 1. Displaying the current weather info as soon as the app launches.
 // 2. Weather info : City name, Weather Img, Celsius, Current Weather, xtr info, Next 5days weather info.
@@ -117,7 +118,10 @@ function App() {
   }, [city]);
 
   return (
-    <div>
+    <div className='weather-app'>
+      <div className='weather-bg'>
+        <img src={bgImage} alt='Weather Background' />
+      </div>
       <WeatherBox weather={weather} forecast={forecast} timezone={timezone} />
       <CityButton cities={cities} setCity={setCity} />
     </div>
