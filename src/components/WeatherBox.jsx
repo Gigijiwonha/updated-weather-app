@@ -13,6 +13,7 @@ import {
   faSmog,
   faMoon,
   faCloudMoon,
+  faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 
 const WeatherBox = ({ weather, forecast, timezone }) => {
@@ -63,8 +64,8 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
 
   return (
     <div className='weatherBox'>
-      <h2>Current Location</h2>
-      <h3>{weather?.name}</h3>
+      <p>Current Location</p>
+      <h3><FontAwesomeIcon icon={faLocationDot}/>{weather?.name}</h3>
       <p>{todayDate}</p>
       <div>
         <FontAwesomeIcon icon={weatherImage[weather?.weather[0].icon]} />

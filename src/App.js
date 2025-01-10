@@ -4,6 +4,8 @@ import WeatherBox from "./components/WeatherBox";
 import CityButton from "./components/CityButton";
 import moment from "moment-timezone";
 import bgImage from "./assets/bgimage.jpg";
+import PuffLoader from "react-spinners/PuffLoader";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 // 1. Displaying the current weather info as soon as the app launches.
 // 2. Weather info : City name, Weather Img, Celsius, Current Weather, xtr info, Next 5days weather info.
@@ -23,6 +25,7 @@ function App() {
   const [forecast, setForecast] = useState();
   const [city, setCity] = useState("");
   const [timezone, setTimezone] = useState(moment.tz.guess()); //Guessing the current timezone based on user's browser
+  const [loading, setLoading] = useState(false);
 
   const API_KEY = "38a63e7b6d9d409e80c797942ae598c0";
 
@@ -68,6 +71,7 @@ function App() {
   };
 
   const getWeatherByCurrentLocation = async (lat, lon) => {
+    setLoading(true);
     try {
       let weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
       let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
@@ -86,10 +90,13 @@ function App() {
       console.log("Forecastdata>>>", forecastData);
     } catch (error) {
       alert(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const getWeatherByCityName = async (city) => {
+    setLoading(true);
     try {
       let weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
       let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}`;
@@ -106,6 +113,8 @@ function App() {
       }
     } catch (error) {
       alert(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -122,8 +131,18 @@ function App() {
       <div className='weather-bg'>
         <img src={bgImage} alt='Weather Background' />
       </div>
-      <WeatherBox weather={weather} forecast={forecast} timezone={timezone} />
-      <CityButton cities={cities} setCity={setCity} />
+      {loading ? (
+        <PuffLoader color='#00c9ff' size={150} className='loadingSpinner' />
+      ) : (
+        <div className='weather-container'>
+          <WeatherBox
+            weather={weather}
+            forecast={forecast}
+            timezone={timezone}
+          />
+          <CityButton cities={cities} setCity={setCity} />
+        </div>
+      )}
     </div>
   );
 }
