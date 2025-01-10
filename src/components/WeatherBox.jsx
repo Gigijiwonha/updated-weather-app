@@ -1,8 +1,41 @@
 import React, { useState, useEffect } from "react";
 import "./WeatherBox.style.css";
 import moment from "moment-timezone";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCloud,
+  faSun,
+  faCloudSun,
+  faCloudShowersHeavy,
+  faCloudRain,
+  faCloudBolt,
+  faSnowflake,
+  faSmog,
+  faMoon,
+  faCloudMoon,
+} from "@fortawesome/free-solid-svg-icons";
 
 const WeatherBox = ({ weather, forecast, timezone }) => {
+  const weatherImage = {
+    "01d": faSun,
+    "02d": faCloudSun,
+    "03d": faCloud,
+    "04d": faCloud,
+    "09d": faCloudShowersHeavy,
+    "10d": faCloudRain,
+    "11d": faCloudBolt,
+    "13d": faSnowflake,
+    "50d": faSmog,
+    "01n": faMoon,
+    "02n": faCloudMoon,
+    "03n": faCloud,
+    "04n": faCloud,
+    "09n": faCloudShowersHeavy,
+    "10n": faCloudRain,
+    "11n": faCloudBolt,
+    "13n": faSnowflake,
+    "50n": faSmog,
+  };
   const [todayDate, setTodayDate] = useState("");
 
   //Initial timeZone 'Australia/Sydney'
@@ -21,7 +54,6 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
   };
 
   const toCelsius = (Kelvin) => {
-    // console.log("f>>", Kelvin);
     return Kelvin - 273.15;
   };
 
@@ -34,7 +66,9 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
       <h2>Current Location</h2>
       <h3>{weather?.name}</h3>
       <p>{todayDate}</p>
-      <div>Weather Image</div>
+      <div>
+        <FontAwesomeIcon icon={weatherImage[weather?.weather[0].icon]} />
+      </div>
       <h1>{Math.round(toCelsius(weather?.main?.temp))}°</h1>
       <h2>
         H:{Math.round(toCelsius(weather?.main?.temp_max))}°|L:
@@ -63,7 +97,7 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
               {/* <div className='icon-box row-center'>
                 <FontAwesomeIcon icon={icons[item.weather[0].description]} className='weather-icon2 row-center' />
               </div> */}
-              <p>{Math.ceil(item.main.temp)}°C</p>
+              <p>{Math.round(toCelsius(item.main.temp))}°</p>
             </div>
           ))}
       </div>
