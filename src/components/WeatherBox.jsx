@@ -50,7 +50,7 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
     const year = currentDate.year();
     const hour = currentDate.format("HH");
     const minute = currentDate.format("mm");
-    const today = `Today ${day} ${Date} ${month} ${year} ${hour}:${minute}`;
+    const today = `${day} ${Date} ${month} ${year} ${hour}:${minute}`;
     setTodayDate(today);
   };
 
@@ -64,29 +64,40 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
 
   return (
     <div className='weatherBox'>
-      <p>Current Location</p>
-      <h3><FontAwesomeIcon icon={faLocationDot}/>{weather?.name}</h3>
-      <p>{todayDate}</p>
-      <div>
-        <FontAwesomeIcon icon={weatherImage[weather?.weather[0].icon]} />
+      <div className='weatherBox-weather'>
+      <div className='weatherBox-location'>
+        <p>Current Location</p>
+        <h3>
+          <FontAwesomeIcon icon={faLocationDot} className='locationDot' />
+          {weather?.name}
+        </h3>
       </div>
-      <h1>{Math.round(toCelsius(weather?.main?.temp))}°</h1>
-      <h2>
-        H:{Math.round(toCelsius(weather?.main?.temp_max))}°|L:
-        {Math.round(toCelsius(weather?.main?.temp_min))}°
-      </h2>
-      <p>{weather?.weather[0]?.description}</p>
-      <div className='weatherDetail-box'>
-        <div className='weatherDetail-item'>
-          <p>Icon Humidity</p>
-          <p>{weather?.main?.humidity}%</p>
+      <div className='weatherBox-information'>
+        <div className='todayDate'>
+          <p>Today</p>
+          <p>{todayDate}</p>
         </div>
-        <div className='weatherDetail-item'>
-          <p>Wind</p>
-          <p>icon{Math.round(weather?.wind?.speed)}m/s</p>
+        <FontAwesomeIcon icon={weatherImage[weather?.weather[0].icon]} className="weatherBox-icon"/>
+        <p className='weatherBox-description'>{weather?.weather[0]?.description}</p>
+        <h1 className='weatherBox-temp'>{Math.round(toCelsius(weather?.main?.temp))}°</h1>
+        <h2 className='weatherBox-temp_max_min'>
+          H:{Math.round(toCelsius(weather?.main?.temp_max))}°|L:
+          {Math.round(toCelsius(weather?.main?.temp_min))}°
+        </h2>
+        <div className='weatherDetail-box'>
+          <div className='weatherDetail-item'>
+            <p>Humidity |</p>
+            <p>{weather?.main?.humidity}%</p>
+          </div>
+          <div className='weatherDetail-item'>
+            <p>Wind |</p>
+            <p>{Math.round(weather?.wind?.speed)}m/s</p>
+          </div>
         </div>
       </div>
-      <div className='forecast-box'>
+      </div>
+      
+      <div className='weatherBox-forecast'>
         {/* forecast 배열이 존재하고 길이가 0보다 크다면 */}
         {forecast &&
           forecast.length > 0 &&

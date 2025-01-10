@@ -120,8 +120,10 @@ function App() {
 
   useEffect(() => {
     if (city === "") {
+      setLoading(true)
       getCurrentLocation();
     } else {
+      setLoading(true)
       getWeatherByCityName(city);
     }
   }, [city]);

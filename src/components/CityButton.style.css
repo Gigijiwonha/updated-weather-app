@@ -1,0 +1,22 @@
+.citybtn-Box {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 5px;
+   margin-top: 10px;
+}
+
+.citybtn-Box button {
+    background: rgb(244, 253, 255);
+    border: none;
+    height: 35px;
+    border-radius: 5px;
+    padding: 10px 30px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.citybtn-Box button:hover {
+    cursor: pointer;
+    background-color: rgb(212, 117, 0);
+}
