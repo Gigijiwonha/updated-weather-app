@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
+import moment from "moment-timezone";
 import "./CityButton.style.css";
 
-const CityButton = ({ cities, setCity, activeCity, setActiveCity }) => {
+const CityButton = ({ cities, setCity, activeCity, setActiveCity, setTimezone, cityTimezone }) => {
 
   const handleActive = (city) => {
     setCity(city);
     setActiveCity(city);
+    setTimezone(city ? cityTimezone[city] : moment.tz.guess());
   };
 
   return (

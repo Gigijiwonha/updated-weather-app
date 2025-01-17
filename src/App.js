@@ -146,7 +146,7 @@ function App() {
             forecast={forecast}
             timezone={timezone}
           />
-          <CityButton cities={cities} setCity={setCity} activeCity={activeCity} setActiveCity={setActiveCity} />
+          <CityButton cities={cities} setCity={setCity} activeCity={activeCity} setActiveCity={setActiveCity} setTimezone={setTimezone} cityTimezone={cityTimezone} />
         </div>
       )}
     </div>
