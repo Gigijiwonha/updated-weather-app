@@ -14,6 +14,8 @@ import {
   faMoon,
   faCloudMoon,
   faLocationDot,
+  faDroplet,
+  faWind,
 } from "@fortawesome/free-solid-svg-icons";
 
 const WeatherBox = ({ weather, forecast, timezone }) => {
@@ -44,13 +46,13 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
   // fYI : 다음5일 날씨 계산할때 UTC시간을 시드니시간으로 바꾸는것고(그럼 도시가 바뀔때 각 도시의시간으로 변환해야함?), 각 위치별 도시별 현재시간을 구하는 방식(브라우저 기준 방법,, 그럼 시티는?,,,)은 다름.
   const getCurrentDate = () => {
     let currentDate = moment().tz(timezone);
-    const day = currentDate.format("ddd");
+    const day = currentDate.format("dddd");
     const Date = currentDate.date();
     const month = currentDate.format("MMM");
     const year = currentDate.year();
     const hour = currentDate.format("HH");
     const minute = currentDate.format("mm");
-    const today = `${day} ${Date} ${month} ${year} ${hour}:${minute}`;
+    const today = `${day} ${Date} ${month} ${hour}:${minute}`;
     setTodayDate(today);
   };
 
@@ -64,40 +66,62 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
 
   return (
     <div className='weatherBox'>
-      <div className='weatherBox-weather'>
-      <div className='weatherBox-location'>
-        <p>Current Location</p>
-        <h3>
-          <FontAwesomeIcon icon={faLocationDot} className='locationDot' />
-          {weather?.name}
-        </h3>
-      </div>
-      <div className='weatherBox-information'>
-        <div className='todayDate'>
-          <p>Today</p>
-          <p>{todayDate}</p>
+      <div className='weatherBox__container'>
+        <div className='weatherBox__location'>
+          <p>Current Location</p>
+          <h3>
+            <FontAwesomeIcon
+              icon={faLocationDot}
+              className='weatherBox__locationDot'
+            />
+            {weather?.name}
+          </h3>
         </div>
-        <FontAwesomeIcon icon={weatherImage[weather?.weather[0].icon]} className="weatherBox-icon"/>
-        <p className='weatherBox-description'>{weather?.weather[0]?.description}</p>
-        <h1 className='weatherBox-temp'>{Math.round(toCelsius(weather?.main?.temp))}°</h1>
-        <h2 className='weatherBox-temp_max_min'>
-          H:{Math.round(toCelsius(weather?.main?.temp_max))}°|L:
-          {Math.round(toCelsius(weather?.main?.temp_min))}°
-        </h2>
-        <div className='weatherDetail-box'>
-          <div className='weatherDetail-item'>
-            <p>Humidity |</p>
-            <p>{weather?.main?.humidity}%</p>
+        <div className='weatherBox__information'>
+          <div className='weatherBox__date'>
+            {/* <p>NOW</p> */}
+            <p>{todayDate}</p>
           </div>
-          <div className='weatherDetail-item'>
-            <p>Wind |</p>
-            <p>{Math.round(weather?.wind?.speed)}m/s</p>
+          <div className='weatherBox__currentWeather'>
+            <div className='weatherBox__currentWeather__top'>
+              <h1 className='weatherBox__tempCurrent'>
+                {Math.round(toCelsius(weather?.main?.temp))}°
+              </h1>
+              <FontAwesomeIcon
+                icon={weatherImage[weather?.weather[0].icon]}
+                className='weatherBox__icon'
+              />
+            </div>
+            <div className='weatherBox__currentWeather__buttom'>
+              <p className='weatherBox__descText'>
+                {weather?.weather[0]?.description}
+              </p>
+              <h2 className='weatherBox__tempMaxMin'>
+                H: {Math.round(toCelsius(weather?.main?.temp_max))}° | L:{" "}
+                {Math.round(toCelsius(weather?.main?.temp_min))}°
+              </h2>
+            </div>
+          </div>
+          <div className='weatherBox__detail'>
+            <div className='weatherBox__detailItem'>
+            <FontAwesomeIcon
+              icon={faDroplet}
+              className='weatherBox__humidityIcon'
+            />
+              <p>Humidity {weather?.main?.humidity}%</p>
+            </div>
+            <div className='weatherBox__detailItem'>
+            <FontAwesomeIcon
+              icon={faWind}
+              className='weatherBox__windIcon'
+            />
+              <p>Wind {Math.round(weather?.wind?.speed)}m/s</p>
+            </div>
           </div>
         </div>
       </div>
-      </div>
-      
-      <div className='weatherBox-forecast'>
+
+      <div className='weatherBox__forecast'>
         {/* forecast 배열이 존재하고 길이가 0보다 크다면 */}
         {forecast &&
           forecast.length > 0 &&
