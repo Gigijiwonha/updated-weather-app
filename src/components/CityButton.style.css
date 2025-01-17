@@ -18,5 +18,11 @@
 
 .citybtn-Box button:hover {
     cursor: pointer;
-    background-color: rgb(212, 117, 0);
+    background: rgb(73, 97, 105);
+  background: linear-gradient(
+    324deg,
+    rgba(73, 97, 105, 1) 59%,
+    rgba(85, 137, 153, 1) 100%
+  );
+  color: var(--colour-text);
 }

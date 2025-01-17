@@ -1,3 +1,22 @@
+/* Global CSS style */
+:root {
+  /* Application Colour */
+  --colour-background: var(--colour-white);
+  --colour-background-variant: var(--colour-yellow);
+  --colour-text: var(--colour-white);
+  --colour-text-variant: var(--colour-lightGray);
+  --colour-cloud: var(--colour-blue);
+
+  /* Colour */
+  --colour-white: #ffffff;
+  --colour-black: #000000;
+  --colour-darkGray: #414141;
+  --colour-gray: #686868;
+  --colour-lightGray: #c0c0c0;
+  --colour-beige: #e7d9c1;
+  --colour-blue: #7eb6ea;
+}
+
 * {
   box-sizing: border-box;
   overscroll-behavior: none;
