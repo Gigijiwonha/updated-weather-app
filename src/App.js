@@ -120,10 +120,10 @@ function App() {
 
   useEffect(() => {
     if (city === "") {
-      setLoading(true)
+      setLoading(true);
       getCurrentLocation();
     } else {
-      setLoading(true)
+      setLoading(true);
       getWeatherByCityName(city);
     }
   }, [city]);
@@ -134,7 +134,10 @@ function App() {
         <img src={bgImage} alt='Weather Background' />
       </div>
       {loading ? (
-        <PuffLoader color='#00c9ff' size={150} className='loadingSpinner' />
+        <div className='loading-container'>
+          <PuffLoader color='#00c9ff' size={150} className='loadingSpinner' />
+          <p className='loading-text'>Just a moment! The clouds are saying something!</p>
+        </div>
       ) : (
         <div className='weather-container'>
           <WeatherBox
