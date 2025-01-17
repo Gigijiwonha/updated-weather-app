@@ -39,6 +39,30 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
     "13n": faSnowflake,
     "50n": faSmog,
   };
+
+  const weatherIconColours = {
+    "01d": 'yellow',
+    "02d": 'yellow',
+    "03d": 'blue',
+    "04d": 'blue',
+    "09d": 'blue',
+    "10d": 'blue',
+    "11d": 'darkBlue',
+    "13d": 'blue',
+    "50d": 'darkBlue',
+    "01n": 'darkYellow',
+    "02n": 'darkYellow',
+    "03n": 'blue',
+    "04n": 'blue',
+    "09n": 'blue',
+    "10n": 'blue',
+    "11n": 'darkBlue',
+    "13n": 'blue',
+    "50n": 'darkBlue',
+  }
+  const weatherIconCode = weather?.weather[0].icon;
+  const weatherIconColour = weatherIconColours[weatherIconCode];
+
   const [todayDate, setTodayDate] = useState("");
 
   //Initial timeZone 'Australia/Sydney'
@@ -72,7 +96,7 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
           <h3>
             <FontAwesomeIcon
               icon={faLocationDot}
-              className='weatherBox__locationDot'
+              className='weatherBox__locationDot '
             />
             {weather?.name}
           </h3>
@@ -89,7 +113,7 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
               </h1>
               <FontAwesomeIcon
                 icon={weatherImage[weather?.weather[0].icon]}
-                className='weatherBox__icon'
+                className={`weatherBox__icon ${weatherIconColour}`}
               />
             </div>
             <div className='weatherBox__currentWeather__buttom'>
@@ -128,7 +152,7 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
               <p className='week'>{moment(item.dt_txt).format("ddd")}</p>
               <FontAwesomeIcon
                 icon={weatherImage[item?.weather[0].icon]}
-                className='weatherBox__forcastIcon'
+                className={`weatherBox__forcastIcon ${weatherIconColours[item?.weather[0].icon]}`}
               />
               <p>{Math.round(toCelsius(item.main.temp))}°</p>
             </div>

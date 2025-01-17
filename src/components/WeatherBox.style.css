@@ -6,7 +6,8 @@
   align-items: center;
   height: 80vh;
   width: 500px;
-  background-color: rgb(170, 159, 147);
+  background: rgb(172,187,201);
+  background: linear-gradient(0deg, rgba(172,187,201,1) 3%, rgba(199,209,218,1) 30%);
   border-radius: 25px;
   box-shadow: -10px -10px 30px 4px rgba(0, 0, 0, 0.1),
     10px 10px 30px 4px rgba(45, 78, 255, 0.15);
@@ -88,18 +89,30 @@
 }
 
 .weatherBox__currentWeather::before {
+  position: absolute;
+  top: 0;
+  left: 0;
   content: "";
   width: 100%;
-  height: 5px;
-  background-color:var(--colour-text-variant)
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background-color: var(--colour-navy);
+  filter: blur(15px);
+}
+
+/* .weatherBox__currentWeather::before {
+  content: "";
+  width: 100%;
+  height: 3px;
+  background-color: var(--colour-text-variant);
 }
 
 .weatherBox__currentWeather::after {
   content: "";
   width: 100%;
-  height: 5px;
-  background-color: var(--colour-text-variant)
-}
+  height: 3px;
+  background-color: var(--colour-text-variant);
+} */
 
 .weatherBox__currentWeather__top {
   display: flex;
@@ -119,8 +132,24 @@
   font-size: 150px;
   margin-top: 0;
   margin-bottom: 10px;
-  color: rgb(30, 88, 175);
+  color: var(--colour-text);
   animation: floating 2s forwards ease-out;
+}
+
+.yellow {
+  color: var(--colour-yellow);
+}
+
+.darkYellow {
+  color: var(--colour-darkYellow);
+}
+
+.blue {
+  color: var(--colour-blue);
+}
+
+.darkBlue {
+  color: var(--colour-darkBlue);
 }
 
 @keyframes floating {
@@ -139,6 +168,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 30px;
+  z-index: 2;
 }
 
 .weatherBox__descText {
@@ -160,6 +190,7 @@
   display: flex;
   gap: 35px;
   margin: 20px;
+  z-index: 2;
 }
 
 .weatherBox__detailItem {
@@ -187,14 +218,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgb(45,70,80);
-background: linear-gradient(324deg, rgba(45,70,80,1) 59%, rgba(49,91,126,1) 100%);
+  background: rgb(45, 70, 80);
+  background: linear-gradient(
+    324deg,
+    rgba(45, 70, 80, 1) 59%,
+    rgba(49, 91, 126, 1) 100%
+  );
   border-radius: 50px;
   margin: 0;
   margin-top: 20px;
   margin-bottom: min(20px);
   padding: 10px;
   color: var(--colour-text-variant);
+  box-shadow: rgba(50, 50, 105, 0.5) 0px 2px 5px 0px, rgba(0, 0, 0, 0.3) 0px 1px 1px 0px;
 }
 
 .forecast-item p {

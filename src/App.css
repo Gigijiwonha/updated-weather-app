@@ -13,8 +13,11 @@
   --colour-darkGray: #414141;
   --colour-gray: #686868;
   --colour-lightGray: #c0c0c0;
-  --colour-beige: #e7d9c1;
-  --colour-blue: #7eb6ea;
+  --colour-blue: #afdef4;
+  --colour-darkBlue: #8eabd4;
+  --colour-yellow: #fff6d4;
+  --colour-darkYellow: #f7e297;
+  --colour-navy: #284155;
 }
 
 * {
