@@ -2,12 +2,13 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     height: 80vh;
     width: 500px;
     background-color: rgb(170, 159, 147);
-    border-radius: 30px;
+    border-radius: 25px;
+    box-shadow: -10px -10px 30px 4px rgba(0,0,0,0.1), 10px 10px 30px 4px rgba(45,78,255,0.15);
 }
 
 .weatherBox__container{
@@ -15,12 +16,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    top: 0;
     width: 100%;
     height: 80%;
     background-color: rgb(229, 216, 201);
     border-radius: 30px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 .weatherBox__location {
@@ -80,14 +80,14 @@
     content: '';
     width: 100%;
     height: 5px;
-    background-color: black;
+    background-color: rgb(195, 183, 170);
 }
 
 .weatherBox__currentWeather::after {
     content: '';
     width: 100%;
     height: 5px;
-    background-color: black;
+    background-color: rgb(195, 183, 170);
 }
 
 .weatherBox__currentWeather__top {
@@ -146,7 +146,7 @@
 .weatherBox__detail {
     display: flex;
     gap: 35px;
-    margin-top: 20px;
+    margin: 20px;
 }
 
 .weatherBox__detailItem {
@@ -165,8 +165,27 @@
 }
 
 .weatherBox__forecast {
-    position: absolute;
-    bottom: 0;
     display: flex;
-    gap: 40px;
+    gap: 30px;
+}
+
+.forecast-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(229, 216, 201);
+    border-radius: 50px;
+    margin: 0;
+    margin-top: 20px;
+    margin-bottom: min(20px);
+    padding: 10px;
+}
+
+.forecast-item p {
+    margin: 0;
+}
+
+.weatherBox__forcastIcon {
+    margin-top: 10px;
+    margin-bottom: 3px;
 }

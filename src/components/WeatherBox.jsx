@@ -104,23 +104,19 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
           </div>
           <div className='weatherBox__detail'>
             <div className='weatherBox__detailItem'>
-            <FontAwesomeIcon
-              icon={faDroplet}
-              className='weatherBox__humidityIcon'
-            />
+              <FontAwesomeIcon
+                icon={faDroplet}
+                className='weatherBox__humidityIcon'
+              />
               <p>Humidity {weather?.main?.humidity}%</p>
             </div>
             <div className='weatherBox__detailItem'>
-            <FontAwesomeIcon
-              icon={faWind}
-              className='weatherBox__windIcon'
-            />
+              <FontAwesomeIcon icon={faWind} className='weatherBox__windIcon' />
               <p>Wind {Math.round(weather?.wind?.speed)}m/s</p>
             </div>
           </div>
         </div>
       </div>
-
       <div className='weatherBox__forecast'>
         {/* forecast 배열이 존재하고 길이가 0보다 크다면 */}
         {forecast &&
@@ -130,9 +126,10 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
             // 예보 정보를 표시하는 요소 생성
             <div key={index} className='forecast-item'>
               <p className='week'>{moment(item.dt_txt).format("ddd")}</p>
-              {/* <div className='icon-box row-center'>
-                <FontAwesomeIcon icon={icons[item.weather[0].description]} className='weather-icon2 row-center' />
-              </div> */}
+              <FontAwesomeIcon
+                icon={weatherImage[item?.weather[0].icon]}
+                className='weatherBox__forcastIcon'
+              />
               <p>{Math.round(toCelsius(item.main.temp))}°</p>
             </div>
           ))}
