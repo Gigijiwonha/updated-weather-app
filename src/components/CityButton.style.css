@@ -1,28 +1,34 @@
 .citybtn-Box {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   gap: 5px;
-   margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
 }
 
-.citybtn-Box button {
-    background: rgb(244, 253, 255);
-    border: none;
-    height: 35px;
-    border-radius: 10px;
-    padding: 10px 30px;
-    font-size: 14px;
-    font-weight: 600;
+.cityBtn {
+  background: rgb(244, 253, 255);
+  border: none;
+  height: 35px;
+  border-radius: 10px;
+  padding: 10px 30px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
-.citybtn-Box button:hover {
-    cursor: pointer;
-    background: rgb(73, 97, 105);
+.cityBtn.active {
+  background: rgb(73, 97, 105);
   background: linear-gradient(
     324deg,
     rgba(73, 97, 105, 1) 59%,
     rgba(85, 137, 153, 1) 100%
   );
+  color: var(--colour-text);
+}
+
+.citybtn-Box button:hover {
+  cursor: pointer;
+  background: rgb(11,37,62);
+  background: linear-gradient(322deg, rgba(11,37,62,1) 41%, rgba(53,85,115,1) 97%);
   color: var(--colour-text);
 }

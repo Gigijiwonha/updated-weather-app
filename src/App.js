@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect, useState } from "react";
+import { act, useEffect, useState } from "react";
 import WeatherBox from "./components/WeatherBox";
 import CityButton from "./components/CityButton";
 import moment from "moment-timezone";
@@ -24,6 +24,7 @@ function App() {
   const [weather, setWeather] = useState();
   const [forecast, setForecast] = useState();
   const [city, setCity] = useState("");
+  const [activeCity, setActiveCity] = useState("");
   const [timezone, setTimezone] = useState(moment.tz.guess()); //Guessing the current timezone based on user's browser
   const [loading, setLoading] = useState(false);
 
@@ -126,7 +127,7 @@ function App() {
       setLoading(true);
       getWeatherByCityName(city);
     }
-  }, [city]);
+  }, [city, activeCity]);
 
   return (
     <div className='weather-app'>
@@ -145,7 +146,7 @@ function App() {
             forecast={forecast}
             timezone={timezone}
           />
-          <CityButton cities={cities} setCity={setCity} />
+          <CityButton cities={cities} setCity={setCity} activeCity={activeCity} setActiveCity={setActiveCity} />
         </div>
       )}
     </div>
