@@ -328,15 +328,16 @@
   }
 
   .weatherBox__location {
-    margin: 10px 0;
+    margin: 10px 20px;
+    text-align: center;
   }
 
   .weatherBox__locationDot {
-    font-size: 18px;
+    font-size: 23px;
   }
 
   .weatherBox__location h3 {
-    font-size: 19px;
+    font-size: 28px;
   }
 
   .weatherBox__date p {
