@@ -28,7 +28,34 @@
 
 .citybtn-Box button:hover {
   cursor: pointer;
-  background: rgb(11,37,62);
-  background: linear-gradient(322deg, rgba(11,37,62,1) 41%, rgba(53,85,115,1) 97%);
+  background: rgb(11, 37, 62);
+  background: linear-gradient(
+    322deg,
+    rgba(11, 37, 62, 1) 41%,
+    rgba(53, 85, 115, 1) 97%
+  );
   color: var(--colour-text);
+}
+
+
+/* Responsive Media Query */
+
+@media (max-width: 768px) {
+  .cityBtn {
+    height: 30px;
+    border-radius: 6px;
+    padding: 7px 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 480px) {
+  .cityBtn {
+    height: 30px;
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
 }
