@@ -17,6 +17,11 @@
     10px 10px 30px 4px rgba(45, 78, 255, 0.15);
 }
 
+.weatherBox.nightmode {
+    background: rgb(94,100,104);
+    background: linear-gradient(0deg, rgba(94,100,104,1) 43%, rgba(127,146,156,1) 90%);
+}
+
 .weatherBox__container {
   display: flex;
   flex-direction: column;
@@ -33,6 +38,15 @@
   border-radius: 25px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.weatherBox__container.nightmode {
+  background: rgb(23, 32, 41);
+  background: linear-gradient(
+    322deg,
+    rgba(23, 32, 41, 1) 16%,
+    rgba(11, 11, 11, 1) 61%
+  );
 }
 
 .weatherBox__location {
@@ -247,7 +261,6 @@
   margin-top: 10px;
   margin-bottom: 3px;
 }
-
 
 /* Responsive Media Query */
 

@@ -26,6 +26,7 @@ function App() {
   const [city, setCity] = useState("");
   const [activeCity, setActiveCity] = useState("");
   const [timezone, setTimezone] = useState(moment.tz.guess()); //Guessing the current timezone based on user's browser
+  const [activeNightMode, setActiveNightMode] =useState(false);
   const [loading, setLoading] = useState(false);
 
   const API_KEY = "38a63e7b6d9d409e80c797942ae598c0";
@@ -127,7 +128,7 @@ function App() {
       setLoading(true);
       getWeatherByCityName(city);
     }
-  }, [city, activeCity]);
+  }, [city, activeCity, activeNightMode]);
 
   return (
     <div className='weather-app'>
@@ -145,6 +146,8 @@ function App() {
             weather={weather}
             forecast={forecast}
             timezone={timezone}
+            activeNightMode={activeNightMode}
+            setActiveNightMode={setActiveNightMode}
           />
           <CityButton cities={cities} setCity={setCity} activeCity={activeCity} setActiveCity={setActiveCity} setTimezone={setTimezone} cityTimezone={cityTimezone} />
         </div>

@@ -18,7 +18,13 @@ import {
   faWind,
 } from "@fortawesome/free-solid-svg-icons";
 
-const WeatherBox = ({ weather, forecast, timezone }) => {
+const WeatherBox = ({
+  weather,
+  forecast,
+  timezone,
+  activeNightMode,
+  setActiveNightMode,
+}) => {
   const weatherImage = {
     "01d": faSun,
     "02d": faCloudSun,
@@ -41,25 +47,25 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
   };
 
   const weatherIconColours = {
-    "01d": 'yellow',
-    "02d": 'yellow',
-    "03d": 'blue',
-    "04d": 'blue',
-    "09d": 'blue',
-    "10d": 'blue',
-    "11d": 'darkBlue',
-    "13d": 'blue',
-    "50d": 'darkBlue',
-    "01n": 'darkYellow',
-    "02n": 'darkYellow',
-    "03n": 'blue',
-    "04n": 'blue',
-    "09n": 'blue',
-    "10n": 'blue',
-    "11n": 'darkBlue',
-    "13n": 'blue',
-    "50n": 'darkBlue',
-  }
+    "01d": "yellow",
+    "02d": "yellow",
+    "03d": "blue",
+    "04d": "blue",
+    "09d": "blue",
+    "10d": "blue",
+    "11d": "darkBlue",
+    "13d": "blue",
+    "50d": "darkBlue",
+    "01n": "darkYellow",
+    "02n": "darkYellow",
+    "03n": "blue",
+    "04n": "blue",
+    "09n": "blue",
+    "10n": "blue",
+    "11n": "darkBlue",
+    "13n": "blue",
+    "50n": "darkBlue",
+  };
   const weatherIconCode = weather?.weather[0].icon;
   const weatherIconColour = weatherIconColours[weatherIconCode];
 
@@ -78,6 +84,16 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
     const minute = currentDate.format("mm");
     const today = `${day} ${Date} ${month} ${hour}:${minute}`;
     setTodayDate(today);
+
+    const unixTimestamp = currentDate.unix();
+    const sunrise = weather?.sys.sunrise;
+    const sunset = weather?.sys.sunset;
+
+    if (unixTimestamp > sunrise && unixTimestamp < sunset) {
+      setActiveNightMode(false);
+    } else {
+      setActiveNightMode(true);
+    }
   };
 
   const toCelsius = (Kelvin) => {
@@ -89,8 +105,14 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
   }, [timezone]);
 
   return (
-    <div className='weatherBox'>
-      <div className='weatherBox__container'>
+    <div className={`weatherBox ${
+      activeNightMode === true ? "nightmode" : ""
+    }`}>
+      <div
+        className={`weatherBox__container ${
+          activeNightMode === true ? "nightmode" : ""
+        }`}
+      >
         <div className='weatherBox__location'>
           <p>Current Location</p>
           <h3>
@@ -152,7 +174,9 @@ const WeatherBox = ({ weather, forecast, timezone }) => {
               <p className='week'>{moment(item.dt_txt).format("ddd")}</p>
               <FontAwesomeIcon
                 icon={weatherImage[item?.weather[0].icon]}
-                className={`weatherBox__forcastIcon ${weatherIconColours[item?.weather[0].icon]}`}
+                className={`weatherBox__forcastIcon ${
+                  weatherIconColours[item?.weather[0].icon]
+                }`}
               />
               <p>{Math.round(toCelsius(item.main.temp))}°</p>
             </div>
