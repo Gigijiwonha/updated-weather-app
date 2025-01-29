@@ -457,18 +457,18 @@
   .weatherBox__hourlyForcast {
     position: relative;
     width: 80%;
-    height: 20%;
+    height: 17%;
     overflow-x: auto;
     scrollbar-width: none;
   }
 
   .weatherBox__hourlyForcast__title {
-    position: fixed;
+    position: sticky;
+    left: 0;
   }
 
   .hourlyForcast__container {
     position: relative;
-    top: 25px;
+    top: 0;
   }
-
 }
