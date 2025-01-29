@@ -1,5 +1,5 @@
 import "./App.css";
-import { act, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import WeatherBox from "./components/WeatherBox";
 import CityButton from "./components/CityButton";
 import moment from "moment-timezone";
@@ -23,10 +23,11 @@ function App() {
 
   const [weather, setWeather] = useState();
   const [forecast, setForecast] = useState();
+  const [hourlyForecast, setHourlyForecast] = useState();
   const [city, setCity] = useState("");
   const [activeCity, setActiveCity] = useState("");
   const [timezone, setTimezone] = useState(moment.tz.guess()); //Guessing the current timezone based on user's browser
-  const [activeNightMode, setActiveNightMode] =useState(false);
+  const [activeNightMode, setActiveNightMode] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const API_KEY = "38a63e7b6d9d409e80c797942ae598c0";
@@ -45,7 +46,16 @@ function App() {
     const getFilteredForcastData = forecastData?.list.filter((item) =>
       item.dt_txt.includes("12:00:00")
     );
+
     const getConvertedForcastData = getFilteredForcastData.map((item) => ({
+      ...item,
+      dt_txt: moment
+        .utc(item.dt_txt)
+        .tz(timezone)
+        .format("YYYY-MM-DD HH:mm:ss"),
+    }));
+
+    const getConvertedHourlyForcastData = forecastData?.list.map((item) => ({
       ...item,
       dt_txt: moment
         .utc(item.dt_txt)
@@ -61,7 +71,11 @@ function App() {
       ? getConvertedForcastData.slice(1, 5)
       : getConvertedForcastData.slice(0, 4);
 
-    return setForecast(finalForecast);
+    const finalHourlyForecast = getConvertedHourlyForcastData.slice(0,7);
+
+    setForecast(finalForecast);
+    setHourlyForecast(finalHourlyForecast);
+    console.log("Hourly forecast>>>", finalHourlyForecast);
   };
 
   const getCurrentLocation = () => {
@@ -82,7 +96,6 @@ function App() {
       const forecastData = await fetchData(forecastUrl);
 
       setWeather(weatherData);
-
       if (forecastData?.list) {
         convertForecastTimezone(forecastData, timezone);
       }
@@ -138,7 +151,9 @@ function App() {
       {loading ? (
         <div className='loading-container'>
           <PuffLoader color='#00c9ff' size={150} className='loadingSpinner' />
-          <p className='loading-text'>Just a moment! The clouds are saying something!</p>
+          <p className='loading-text'>
+            Just a moment! The clouds are saying something!
+          </p>
         </div>
       ) : (
         <div className='weather-container'>
@@ -146,10 +161,18 @@ function App() {
             weather={weather}
             forecast={forecast}
             timezone={timezone}
+            hourlyForecast={hourlyForecast}
             activeNightMode={activeNightMode}
             setActiveNightMode={setActiveNightMode}
           />
-          <CityButton cities={cities} setCity={setCity} activeCity={activeCity} setActiveCity={setActiveCity} setTimezone={setTimezone} cityTimezone={cityTimezone} />
+          <CityButton
+            cities={cities}
+            setCity={setCity}
+            activeCity={activeCity}
+            setActiveCity={setActiveCity}
+            setTimezone={setTimezone}
+            cityTimezone={cityTimezone}
+          />
         </div>
       )}
     </div>

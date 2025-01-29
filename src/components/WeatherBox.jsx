@@ -22,6 +22,7 @@ const WeatherBox = ({
   weather,
   forecast,
   timezone,
+  hourlyForecast,
   activeNightMode,
   setActiveNightMode,
 }) => {
@@ -105,16 +106,16 @@ const WeatherBox = ({
   }, [timezone]);
 
   return (
-    <div className={`weatherBox ${
-      activeNightMode === true ? "nightmode" : ""
-    }`}>
+    <div
+      className={`weatherBox ${activeNightMode === true ? "nightmode" : ""}`}
+    >
       <div
         className={`weatherBox__container ${
           activeNightMode === true ? "nightmode" : ""
         }`}
       >
         <div className='weatherBox__location'>
-          <p>Current Location</p>
+          <p className='subTitle'>Current Location</p>
           <h3>
             <FontAwesomeIcon
               icon={faLocationDot}
@@ -163,22 +164,48 @@ const WeatherBox = ({
           </div>
         </div>
       </div>
+      <div className='weatherBox__hourlyForcast'>
+        <p
+          className='weatherBox__hourlyForcast__title'
+        >
+          Hourly Forecast
+        </p>
+        <div className='hourlyForcast__container'>
+          {hourlyForecast?.map((item, index) => (
+            <div className='hourlyForcast__item'>
+              <p className='hourlyForcast__item__hour'>
+                {moment(item.dt_txt).format("HH")}
+              </p>
+              <FontAwesomeIcon
+                icon={weatherImage[item?.weather[0].icon]}
+                className={`weatherBox__hourlyForcastIcon ${
+                  weatherIconColours[item?.weather[0].icon]
+                }`}
+              />
+              <p className='hourlyForcast__item__temp'>
+                {Math.round(toCelsius(item.main.temp))}°
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
       <div className='weatherBox__forecast'>
-        {/* forecast 배열이 존재하고 길이가 0보다 크다면 */}
         {forecast &&
           forecast.length > 0 &&
-          // 5일 예보 정보를 순회하면서 각 요소를 표시
           forecast.map((item, index) => (
-            // 예보 정보를 표시하는 요소 생성
-            <div key={index} className='forecast-item'>
-              <p className='week'>{moment(item.dt_txt).format("ddd")}</p>
+            <div key={index} className='forecast__item'>
+              <p className='forecast__item__week'>
+                {moment(item.dt_txt).format("ddd")}
+              </p>
               <FontAwesomeIcon
                 icon={weatherImage[item?.weather[0].icon]}
                 className={`weatherBox__forcastIcon ${
                   weatherIconColours[item?.weather[0].icon]
                 }`}
               />
-              <p>{Math.round(toCelsius(item.main.temp))}°</p>
+              <p className='forecast__item__temp'>
+                {Math.round(toCelsius(item.main.temp))}°
+              </p>
             </div>
           ))}
       </div>
