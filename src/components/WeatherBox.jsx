@@ -169,45 +169,41 @@ const WeatherBox = ({
       <div className='weatherBox__hourlyForcast'>
         <p className='weatherBox__hourlyForcast__title'>Hourly Forecast</p>
         <div className='hourlyForcast__container'>
-          {hourlyForecast &&
-            hourlyForecast.length > 0 &&
-            hourlyForecast?.map((item, index) => (
-              <div className='hourlyForcast__item'>
-                <p className='hourlyForcast__item__hour'>
-                  {moment(item.dt_txt).format("HH")}
-                </p>
-                <FontAwesomeIcon
-                  icon={weatherImage[item?.weather[0].icon]}
-                  className={`weatherBox__hourlyForcastIcon ${
-                    weatherIconColours[item?.weather[0].icon]
-                  }`}
-                />
-                <p className='hourlyForcast__item__temp'>
-                  {Math.round(toCelsius(item.main.temp))}°
-                </p>
-              </div>
-            ))}
-        </div>
-      </div>
-      <div className='weatherBox__forecast'>
-        {forecast &&
-          forecast.length > 0 &&
-          forecast.map((item, index) => (
-            <div key={index} className='forecast__item'>
-              <p className='forecast__item__week'>
-                {moment(item.dt_txt).format("ddd")}
+          {hourlyForecast?.map((item, index) => (
+            <div className='hourlyForcast__item'>
+              <p className='hourlyForcast__item__hour'>
+                {moment(item.dt_txt).format("HH")}
               </p>
               <FontAwesomeIcon
                 icon={weatherImage[item?.weather[0].icon]}
-                className={`weatherBox__forcastIcon ${
+                className={`weatherBox__hourlyForcastIcon ${
                   weatherIconColours[item?.weather[0].icon]
                 }`}
               />
-              <p className='forecast__item__temp'>
+              <p className='hourlyForcast__item__temp'>
                 {Math.round(toCelsius(item.main.temp))}°
               </p>
             </div>
           ))}
+        </div>
+      </div>
+      <div className='weatherBox__forecast'>
+        {forecast.map((item, index) => (
+          <div key={index} className='forecast__item'>
+            <p className='forecast__item__week'>
+              {moment(item.dt_txt).format("ddd")}
+            </p>
+            <FontAwesomeIcon
+              icon={weatherImage[item?.weather[0].icon]}
+              className={`weatherBox__forcastIcon ${
+                weatherIconColours[item?.weather[0].icon]
+              }`}
+            />
+            <p className='forecast__item__temp'>
+              {Math.round(toCelsius(item.main.temp))}°
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );
