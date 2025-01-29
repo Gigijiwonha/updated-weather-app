@@ -26,6 +26,7 @@ const WeatherBox = ({
   activeNightMode,
   setActiveNightMode,
 }) => {
+  // Set weather icons based on weather condition codes.
   const weatherImage = {
     "01d": faSun,
     "02d": faCloudSun,
@@ -47,6 +48,7 @@ const WeatherBox = ({
     "50n": faSmog,
   };
 
+  // Set icons colour based on weather condition codes.
   const weatherIconColours = {
     "01d": "yellow",
     "02d": "yellow",
@@ -73,8 +75,6 @@ const WeatherBox = ({
   const [todayDate, setTodayDate] = useState("");
 
   //Initial timeZone 'Australia/Sydney'
-
-  // fYI : 다음5일 날씨 계산할때 UTC시간을 시드니시간으로 바꾸는것고(그럼 도시가 바뀔때 각 도시의시간으로 변환해야함?), 각 위치별 도시별 현재시간을 구하는 방식(브라우저 기준 방법,, 그럼 시티는?,,,)은 다름.
   const getCurrentDate = () => {
     let currentDate = moment().tz(timezone);
     const day = currentDate.format("dddd");
@@ -86,6 +86,8 @@ const WeatherBox = ({
     const today = `${day} ${Date} ${month} ${hour}:${minute}`;
     setTodayDate(today);
 
+    // Checks if the current time is between sunrise and sunset
+    // to determine whether it's day or night and sets the night mode accordingly.
     const unixTimestamp = currentDate.unix();
     const sunrise = weather?.sys.sunrise;
     const sunset = weather?.sys.sunset;
@@ -165,28 +167,26 @@ const WeatherBox = ({
         </div>
       </div>
       <div className='weatherBox__hourlyForcast'>
-        <p
-          className='weatherBox__hourlyForcast__title'
-        >
-          Hourly Forecast
-        </p>
+        <p className='weatherBox__hourlyForcast__title'>Hourly Forecast</p>
         <div className='hourlyForcast__container'>
-          {hourlyForecast?.map((item, index) => (
-            <div className='hourlyForcast__item'>
-              <p className='hourlyForcast__item__hour'>
-                {moment(item.dt_txt).format("HH")}
-              </p>
-              <FontAwesomeIcon
-                icon={weatherImage[item?.weather[0].icon]}
-                className={`weatherBox__hourlyForcastIcon ${
-                  weatherIconColours[item?.weather[0].icon]
-                }`}
-              />
-              <p className='hourlyForcast__item__temp'>
-                {Math.round(toCelsius(item.main.temp))}°
-              </p>
-            </div>
-          ))}
+          {hourlyForecast &&
+            hourlyForecast.length > 0 &&
+            hourlyForecast?.map((item, index) => (
+              <div className='hourlyForcast__item'>
+                <p className='hourlyForcast__item__hour'>
+                  {moment(item.dt_txt).format("HH")}
+                </p>
+                <FontAwesomeIcon
+                  icon={weatherImage[item?.weather[0].icon]}
+                  className={`weatherBox__hourlyForcastIcon ${
+                    weatherIconColours[item?.weather[0].icon]
+                  }`}
+                />
+                <p className='hourlyForcast__item__temp'>
+                  {Math.round(toCelsius(item.main.temp))}°
+                </p>
+              </div>
+            ))}
         </div>
       </div>
       <div className='weatherBox__forecast'>

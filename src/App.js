@@ -8,9 +8,9 @@ import PuffLoader from "react-spinners/PuffLoader";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 
 // 1. Displaying the current weather info as soon as the app launches.
-// 2. Weather info : City name, Weather Img, Celsius, Current Weather, xtr info, Next 5days weather info.
-// 3. Display other cities name when the users click the button next to current city name.
-// 4. Add animation effect to Weather Img.
+// 2. Weather info : City name, Weather Img, Celsius, Current Weather, additional info, a 4-day forecast.
+// 3. Display other city weathers when the user clicks the button next to current location.
+// 4. Add an animation effect to the Weather Icon.
 // 5. Loading spinner.
 
 function App() {
@@ -26,12 +26,13 @@ function App() {
   const [hourlyForecast, setHourlyForecast] = useState();
   const [city, setCity] = useState("");
   const [activeCity, setActiveCity] = useState("");
-  const [timezone, setTimezone] = useState(moment.tz.guess()); //Guessing the current timezone based on user's browser
+  const [timezone, setTimezone] = useState(moment.tz.guess());
   const [activeNightMode, setActiveNightMode] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const API_KEY = "38a63e7b6d9d409e80c797942ae598c0";
 
+  // Fetches data from the given URL and returns the JSON response.
   const fetchData = async (url) => {
     try {
       let response = await fetch(url);
@@ -42,11 +43,13 @@ function App() {
     }
   };
 
+  // Converts the time to the selected timezone and returns the corresponding forecast data.
   const convertForecastTimezone = (forecastData, timezone) => {
+    // Extract only the 12:00 PM data and convert it to the selected city's timezone.
     const getFilteredForcastData = forecastData?.list.filter((item) =>
       item.dt_txt.includes("12:00:00")
     );
-
+    // Map only the time data in the filtered forecast dataset.
     const getConvertedForcastData = getFilteredForcastData.map((item) => ({
       ...item,
       dt_txt: moment
@@ -54,7 +57,7 @@ function App() {
         .tz(timezone)
         .format("YYYY-MM-DD HH:mm:ss"),
     }));
-
+    // Map only the time data in the unfiltered forecast dataset.
     const getConvertedHourlyForcastData = forecastData?.list.map((item) => ({
       ...item,
       dt_txt: moment
@@ -64,20 +67,24 @@ function App() {
     }));
 
     const currentDate = moment().tz(timezone).format("YYYY-MM-DD");
-
+    //If the time data in the forecast matches the currently selected date,
+    // slice the data excluding the first entry and return the next 4 entries.
+    // Otherwise, include the first entry and slice the next 4.
+    // This is because the forecast should not include the current day's weather.
     const finalForecast = getConvertedForcastData?.[0]?.dt_txt.startsWith(
       currentDate
     )
       ? getConvertedForcastData.slice(1, 5)
       : getConvertedForcastData.slice(0, 4);
 
-    const finalHourlyForecast = getConvertedHourlyForcastData.slice(0,7);
+    const finalHourlyForecast = getConvertedHourlyForcastData.slice(0, 7);
 
     setForecast(finalForecast);
     setHourlyForecast(finalHourlyForecast);
-    console.log("Hourly forecast>>>", finalHourlyForecast);
+    // console.log("Hourly forecast>>>", finalHourlyForecast);
   };
 
+  //Retrieves user's current location (latitude, longitude) and fetches weather data.
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       let lat = position.coords.latitude;
@@ -101,15 +108,15 @@ function App() {
       }
       setCity("");
 
-      console.log("Weatherdata>>>", weatherData);
-      console.log("Forecastdata>>>", forecastData);
+      // console.log("Weatherdata>>>", weatherData);
+      // console.log("Forecastdata>>>", forecastData);
     } catch (error) {
       alert(error.message);
     } finally {
       setLoading(false);
     }
   };
-
+  //Fetches weather data by city name.
   const getWeatherByCityName = async (city) => {
     setLoading(true);
     try {
@@ -119,7 +126,7 @@ function App() {
       const weatherDataByCity = await fetchData(weatherUrl);
       const forcastDataByCity = await fetchData(forecastUrl);
       const activeTimezone = cityTimezone[city];
-      console.log("city forecast", forcastDataByCity);
+      // console.log("city forecast>>>", forcastDataByCity);
 
       setWeather(weatherDataByCity);
 
@@ -133,6 +140,7 @@ function App() {
     }
   };
 
+  //If no city is selected, fetch data for the user's current location.
   useEffect(() => {
     if (city === "") {
       setLoading(true);
@@ -148,6 +156,7 @@ function App() {
       <div className='weather-bg'>
         <img src={bgImage} alt='Weather Background' />
       </div>
+      {/* Once loading is complete (false), display the weather data. */}
       {loading ? (
         <div className='loading-container'>
           <PuffLoader color='#00c9ff' size={150} className='loadingSpinner' />
