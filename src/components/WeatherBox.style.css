@@ -219,7 +219,7 @@
 }
 
 .weatherBox__hourlyForcast {
-    position: relative;
+  position: relative;
   width: auto;
   height: auto;
   display: flex;
@@ -242,7 +242,7 @@
 }
 
 .hourlyForcast__container {
- position: relative;
+  position: relative;
   display: flex;
   justify-content: center;
   margin: 0;
@@ -250,28 +250,28 @@
 }
 
 .hourlyForcast__container::before {
-    position: absolute;
-    top: -4px;
-    content: "";
-    height: 1px;
-    width: 100%;
-    background-color: var(--colour-navy);
-    opacity: .3;
+  position: absolute;
+  top: -4px;
+  content: "";
+  height: 1px;
+  width: 100%;
+  background-color: var(--colour-navy);
+  opacity: 0.3;
 }
 
 .hourlyForcast__container::after {
-    position: absolute;
-    bottom: -4px;
-    content: "";
-    height: 1px;
-    width: 100%;
-    background-color: var(--colour-navy);
-    opacity: .3;
+  position: absolute;
+  bottom: -4px;
+  content: "";
+  height: 1px;
+  width: 100%;
+  background-color: var(--colour-navy);
+  opacity: 0.3;
 }
 
 .nightmode .hourlyForcast__container::before,
 .nightmode .hourlyForcast__container::after {
-    background-color: var(--colour-lightGray); 
+  background-color: var(--colour-lightGray);
 }
 
 .hourlyForcast__item {
@@ -417,6 +417,10 @@
     width: 340px;
   }
 
+  .weatherBox__container {
+    height: 80%;
+  }
+
   .weatherBox__location {
     margin: 10px 20px;
     text-align: center;
@@ -449,4 +453,22 @@
     margin-bottom: 3px;
     font-size: 12px;
   }
+
+  .weatherBox__hourlyForcast {
+    position: relative;
+    width: 80%;
+    height: 20%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .weatherBox__hourlyForcast__title {
+    position: fixed;
+  }
+
+  .hourlyForcast__container {
+    position: relative;
+    top: 25px;
+  }
+
 }
