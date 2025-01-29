@@ -188,7 +188,7 @@ const WeatherBox = ({
         </div>
       </div>
       <div className='weatherBox__forecast'>
-        {forecast.map((item, index) => (
+        {forecast?.map((item, index) => (
           <div key={index} className='forecast__item'>
             <p className='forecast__item__week'>
               {moment(item.dt_txt).format("ddd")}
