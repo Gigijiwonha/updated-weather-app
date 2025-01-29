@@ -457,7 +457,7 @@
   .weatherBox__hourlyForcast {
     position: relative;
     width: 80%;
-    height: 17%;
+    height: 20%;
     overflow-x: auto;
     scrollbar-width: none;
   }
